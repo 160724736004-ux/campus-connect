@@ -35,18 +35,18 @@ export default function OnlineExamTake() {
         navigate("/question-bank");
         return;
       }
-      if (testData.status !== "scheduled" && testData.status !== "active") {
+      if ((testData as any).status !== "scheduled" && (testData as any).status !== "active") {
         toast({ title: "Test not available", variant: "destructive" });
         navigate("/question-bank");
         return;
       }
       const now = new Date();
-      if (new Date(testData.start_time) > now) {
+      if (new Date((testData as any).start_time) > now) {
         toast({ title: "Test has not started yet", variant: "destructive" });
         navigate("/question-bank");
         return;
       }
-      if (new Date(testData.end_time) < now) {
+      if (new Date((testData as any).end_time) < now) {
         toast({ title: "Test has ended", variant: "destructive" });
         navigate("/question-bank");
         return;
@@ -56,7 +56,7 @@ export default function OnlineExamTake() {
       const { data: attemptData } = await supabase.from("online_test_attempts" as any).select("*").eq("test_id", testId).eq("student_id", user.id).single();
       if (attemptData) {
         setAttempt(attemptData);
-        if (attemptData.status === "submitted" || attemptData.status === "evaluated") {
+        if ((attemptData as any).status === "submitted" || (attemptData as any).status === "evaluated") {
           toast({ title: "You have already submitted this test" });
           navigate("/question-bank");
           return;
@@ -74,11 +74,11 @@ export default function OnlineExamTake() {
 
       const { data: testQs } = await supabase.from("online_test_questions" as any).select("*, question_bank_questions(*)").eq("test_id", testId).order("sequence");
       let qList = testQs || [];
-      if (testData?.shuffle_questions) qList = [...qList].sort(() => Math.random() - 0.5);
+      if ((testData as any)?.shuffle_questions) qList = [...qList].sort(() => Math.random() - 0.5);
       setQuestions(qList);
 
-      const mins = testData.duration_minutes || 60;
-      const start = attemptData ? new Date(attemptData.started_at).getTime() : Date.now();
+      const mins = (testData as any).duration_minutes || 60;
+      const start = attemptData ? new Date((attemptData as any).started_at).getTime() : Date.now();
       setTimeLeft(Math.max(0, mins * 60 - Math.floor((Date.now() - start) / 1000)));
       setLoading(false);
     };

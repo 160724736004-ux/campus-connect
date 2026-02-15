@@ -55,16 +55,16 @@ export default function BacklogRegistration() {
       }));
       setBacklogs(items);
       setWindows(winRes.data || []);
-      const regs = regRes.data || [];
+      const regs = (regRes.data || []) as any[];
       setRegistrations(regs);
       const paidRegIds = regs.filter((r: any) => r.payment_status === "paid").map((r: any) => r.id);
       if (paidRegIds.length > 0) {
         const { data: ht } = await supabase.from("supplementary_hall_tickets" as any).select("*, exam_schedules(exam_date, start_time, courses(code, title)), exam_halls(name, building)").in("registration_id", paidRegIds);
         setHallTickets(ht || []);
       } else setHallTickets([]);
-      const win = (winRes.data || []).find((w: any) => w.is_active && new Date(w.start_date) <= new Date() && new Date(w.end_date) >= new Date());
+      const win = ((winRes.data || []) as any[]).find((w: any) => w.is_active && new Date(w.start_date) <= new Date() && new Date(w.end_date) >= new Date());
       if (win) {
-        const reg = regs.find((r: any) => r.window_id === win.id);
+        const reg = regs.find((r: any) => r.window_id === win.id) as any;
         if (reg?.supplementary_registration_subjects) {
           setSelectedBacklogIds(new Set((reg.supplementary_registration_subjects as any[]).map((s: any) => s.backlog_id)));
         }
@@ -97,17 +97,17 @@ export default function BacklogRegistration() {
       .maybeSingle();
 
     let regId: string;
-    if (existing?.id) {
+    if ((existing as any)?.id) {
       const { error: upErr } = await supabase
         .from("supplementary_registrations" as any)
         .update({ total_amount: totalAmount, payment_status: "pending" })
-        .eq("id", existing.id);
+        .eq("id", (existing as any).id);
       if (upErr) {
         toast({ title: "Error", description: upErr.message, variant: "destructive" });
         setSubmitting(false);
         return;
       }
-      regId = existing.id;
+      regId = (existing as any).id;
     } else {
       const { data: inserted, error: insErr } = await supabase
         .from("supplementary_registrations" as any)
@@ -119,7 +119,7 @@ export default function BacklogRegistration() {
         setSubmitting(false);
         return;
       }
-      regId = inserted?.id;
+      regId = (inserted as any)?.id;
     }
 
     await supabase.from("supplementary_registration_subjects" as any).delete().eq("registration_id", regId);

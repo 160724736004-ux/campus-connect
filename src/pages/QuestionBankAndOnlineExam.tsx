@@ -116,7 +116,7 @@ export default function QuestionBankAndOnlineExam() {
     const totalMarks = parseFloat(blueprint.total_marks || 70);
     const perQ = totalMarks / Math.min(shuffled.length, 10);
     for (let i = 0; i < Math.min(shuffled.length, 15); i++) {
-      await supabase.from("question_paper_set_questions" as any).insert({ paper_set_id: setRow.id, question_id: shuffled[i].id, sequence: i + 1, marks: perQ });
+      await supabase.from("question_paper_set_questions" as any).insert({ paper_set_id: (setRow as any).id, question_id: shuffled[i].id, sequence: i + 1, marks: perQ });
     }
     toast({ title: "Paper generated", description: `Set ${generateForm.set_label} with ${Math.min(shuffled.length, 15)} questions` }); setGenerateDialogOpen(false); setGenerateForm({ blueprint_id: "", set_label: "A" }); fetchData();
   };

@@ -69,7 +69,7 @@ calendar_event_id: "", entry_start_date: "", entry_deadline: "",
         supabase.from("assessment_component_definitions" as any)
           .select("*, assessment_component_types(name, code), courses(code, title)")
           .order("sort_order"),
-        supabase.from("grace_marks_policies" as any).select("*, courses(code, title)").order("name").then((r) => r).catch(() => ({ data: [] })),
+        (supabase.from("grace_marks_policies" as any).select("*, courses(code, title)").order("name") as any).then((r: any) => r).catch(() => ({ data: [] })),
       ]);
       setCourses(coursesRes.data || []);
       setAcademicYears((yearsRes.data as any[]) || []);
@@ -95,7 +95,7 @@ calendar_event_id: "", entry_start_date: "", entry_deadline: "",
       calculation_formula: "sum", best_of_n_count: "", is_manual_entry: true,
       calendar_event_id: "", entry_start_date: "", entry_deadline: "",
       grace_period_hours: "0", requires_approval: false,
-      round_off_rule: "none", depends_on_component_id: "",
+      round_off_rule: "none", depends_on_component_id: "", approval_deadline: "",
     });
     setDialogOpen(true);
   };

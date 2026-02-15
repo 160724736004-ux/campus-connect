@@ -158,7 +158,7 @@ export default function MarksApproval() {
   const performBulkAction = async () => {
     for (const key of selectedForBulk) {
       const batch = allBatches.find((b) => b.key === key);
-      if (batch) await performAction(b, bulkActionType, bulkComments);
+      if (batch) await performAction(batch, bulkActionType, bulkComments);
     }
     setSelectedForBulk(new Set());
     setBulkActionDialogOpen(false);

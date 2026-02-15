@@ -240,7 +240,7 @@ export default function Finance() {
     for (let i = 0; i < compCodes.length; i++) {
       if (amounts[i] <= 0) continue;
       const ct = componentTypes.find((t: any) => t.code === compCodes[i]);
-      if (ct) await supabase.from("fee_structure_components" as any).insert({ fee_structure_id: inserted.id, component_type_id: ct.id, amount: amounts[i] });
+      if (ct) await supabase.from("fee_structure_components" as any).insert({ fee_structure_id: (inserted as any).id, component_type_id: ct.id, amount: amounts[i] });
     }
     toast({ title: "Fee structure created" });
     setFeeDefDialogOpen(false);

@@ -8,6 +8,7 @@ import {
   Building2,
   ClipboardList,
   Settings,
+  Shield,
   LogOut,
   Briefcase,
   School,
@@ -77,6 +78,7 @@ const adminNav = [
   { title: "Finance", url: "/finance", icon: DollarSign },
   { title: "HR & Payroll", url: "/hr-payroll", icon: Briefcase },
   { title: "Attendance", url: "/attendance", icon: CalendarDays },
+  { title: "User Management", url: "/user-management", icon: Shield },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

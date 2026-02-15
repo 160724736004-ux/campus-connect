@@ -52,6 +52,7 @@ import FacultyMessages from "./pages/FacultyMessages";
 import FacultyNotifications from "./pages/FacultyNotifications";
 import FacultyLeave from "./pages/FacultyLeave";
 import FacultyAttendanceReports from "./pages/FacultyAttendanceReports";
+import UserManagement from "./pages/UserManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -111,6 +112,7 @@ const App = () => (
             <Route path="/faculty/notifications" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyNotifications /></ProtectedRoute>} />
             <Route path="/faculty/leave" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyLeave /></ProtectedRoute>} />
             <Route path="/faculty/reports" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyAttendanceReports /></ProtectedRoute>} />
+            <Route path="/user-management" element={<ProtectedRoute allowedRoles={["admin"]}><UserManagement /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

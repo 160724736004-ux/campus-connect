@@ -381,10 +381,10 @@ export default function MarksEntry() {
               </div>
               <div className="w-48">
                 <label className="text-sm font-medium mb-2 block">Section (optional)</label>
-                <Select value={selectedSection} onValueChange={setSelectedSection}>
+                <Select value={selectedSection || "__all__"} onValueChange={(v) => setSelectedSection(v === "__all__" ? "" : v)}>
                   <SelectTrigger><SelectValue placeholder="All" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All sections</SelectItem>
+                    <SelectItem value="__all__">All sections</SelectItem>
                     {sections.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
                   </SelectContent>
                 </Select>

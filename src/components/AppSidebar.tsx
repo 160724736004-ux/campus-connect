@@ -107,16 +107,22 @@ const hodNav = [
 
 const facultyNav = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "My Schedule", url: "/faculty/schedule", icon: CalendarDays },
   { title: "My Courses", url: "/courses", icon: BookOpen },
-  { title: "Attendance", url: "/attendance", icon: CalendarDays },
-  { title: "Grading", url: "/grading", icon: ClipboardList },
-  { title: "Assessment Components", url: "/assessment-components", icon: FileCheck },
+  { title: "Mark Attendance", url: "/attendance", icon: CalendarCheck },
+  { title: "Attendance Reports", url: "/faculty/reports", icon: BarChart2 },
   { title: "Marks Entry", url: "/marks-entry", icon: FileSpreadsheet },
   { title: "External Marks Entry", url: "/external-marks-entry", icon: FileSpreadsheet },
   { title: "Marks Reports", url: "/marks-reports", icon: BarChart2 },
-  { title: "Question Bank", url: "/question-bank", icon: BookOpen },
+  { title: "Student Details", url: "/faculty/students", icon: Users },
+  { title: "Student Messages", url: "/faculty/messages", icon: MessageSquare },
+  { title: "Notifications", url: "/faculty/notifications", icon: Bell },
+  { title: "Leave Application", url: "/faculty/leave", icon: Send },
+  { title: "Assessment Components", url: "/assessment-components", icon: FileCheck },
+  { title: "Grading", url: "/grading", icon: ClipboardList },
   { title: "Lesson Plan", url: "/lesson-plan", icon: FileText },
-  { title: "LMS", url: "/lms", icon: BookOpen },
+  { title: "Course Materials", url: "/lms", icon: BookOpen },
+  { title: "Question Bank", url: "/question-bank", icon: BookOpen },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

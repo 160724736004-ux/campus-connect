@@ -38,6 +38,14 @@ import QuestionBankAndOnlineExam from "./pages/QuestionBankAndOnlineExam";
 import LessonPlan from "./pages/LessonPlan";
 import LMS from "./pages/LMS";
 import OnlineExamTake from "./pages/OnlineExamTake";
+import StudentTimetable from "./pages/StudentTimetable";
+import StudentNotifications from "./pages/StudentNotifications";
+import StudentLeave from "./pages/StudentLeave";
+import StudentHallTickets from "./pages/StudentHallTickets";
+import StudentCertificates from "./pages/StudentCertificates";
+import StudentAnnouncements from "./pages/StudentAnnouncements";
+import StudentMessages from "./pages/StudentMessages";
+import StudentFeedback from "./pages/StudentFeedback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -83,6 +91,14 @@ const App = () => (
             <Route path="/hr-payroll" element={<ProtectedRoute allowedRoles={["admin", "faculty", "hod"]}><HRPayroll /></ProtectedRoute>} />
             <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
             <Route path="/schedule" element={<ProtectedRoute allowedRoles={["student", "faculty", "admin", "hod"]}><Schedule /></ProtectedRoute>} />
+            <Route path="/student/timetable" element={<ProtectedRoute allowedRoles={["student"]}><StudentTimetable /></ProtectedRoute>} />
+            <Route path="/student/notifications" element={<ProtectedRoute allowedRoles={["student"]}><StudentNotifications /></ProtectedRoute>} />
+            <Route path="/student/leave" element={<ProtectedRoute allowedRoles={["student"]}><StudentLeave /></ProtectedRoute>} />
+            <Route path="/student/hall-tickets" element={<ProtectedRoute allowedRoles={["student"]}><StudentHallTickets /></ProtectedRoute>} />
+            <Route path="/student/certificates" element={<ProtectedRoute allowedRoles={["student"]}><StudentCertificates /></ProtectedRoute>} />
+            <Route path="/student/announcements" element={<ProtectedRoute allowedRoles={["student"]}><StudentAnnouncements /></ProtectedRoute>} />
+            <Route path="/student/messages" element={<ProtectedRoute allowedRoles={["student"]}><StudentMessages /></ProtectedRoute>} />
+            <Route path="/student/feedback" element={<ProtectedRoute allowedRoles={["student"]}><StudentFeedback /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

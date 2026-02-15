@@ -39,15 +39,10 @@ export function FacultyDashboard() {
         }
       }
 
-      // Today's schedule
       const today = new Date().getDay();
       if (courseIds.length > 0) {
         const { data: schedules } = await supabase
-          .from("course_schedules")
-          .select("*")
-          .in("course_id", courseIds)
-          .eq("day_of_week", today)
-          .order("start_time");
+          .from("course_schedules").select("*").in("course_id", courseIds).eq("day_of_week", today).order("start_time");
         const courseMap = Object.fromEntries((courses || []).map((c: any) => [c.id, c]));
         setTodaySchedule((schedules || []).map((s: any) => ({
           ...s,
@@ -56,33 +51,28 @@ export function FacultyDashboard() {
         })));
       }
 
-      // Pending condonation requests
       let pendingCondonations = 0;
       if (courseIds.length > 0) {
         const { count: condCount } = await supabase
-          .from("attendance_condonations")
-          .select("id", { count: "exact", head: true })
-          .in("course_id", courseIds)
-          .eq("status", "pending");
+          .from("attendance_condonations").select("id", { count: "exact", head: true }).in("course_id", courseIds).eq("status", "pending");
         pendingCondonations = condCount || 0;
       }
 
       setStats({ courses: courseIds.length, students: studentCount, pendingGrades, pendingCondonations });
 
-      // Build pending tasks
       const tasks: typeof pendingTasks = [];
-      if (pendingGrades > 0) tasks.push({ label: "Pending Marks Entry", count: pendingGrades, path: "/marks-entry", icon: FileSpreadsheet, color: "text-amber-500" });
-      if (pendingCondonations > 0) tasks.push({ label: "Condonation Requests", count: pendingCondonations, path: "/attendance", icon: Send, color: "text-blue-500" });
+      if (pendingGrades > 0) tasks.push({ label: "Pending Marks Entry", count: pendingGrades, path: "/marks-entry", icon: FileSpreadsheet, color: "text-warning" });
+      if (pendingCondonations > 0) tasks.push({ label: "Condonation Requests", count: pendingCondonations, path: "/attendance", icon: Send, color: "text-primary" });
       setPendingTasks(tasks);
     };
     load();
   }, [user]);
 
   const statCards = [
-    { label: "My Courses", value: String(stats.courses), icon: BookOpen, gradient: "from-blue-500 to-blue-600" },
-    { label: "Total Students", value: String(stats.students), icon: Users, gradient: "from-emerald-500 to-emerald-600" },
-    { label: "Today's Classes", value: String(todaySchedule.length), icon: CalendarDays, gradient: "from-violet-500 to-violet-600" },
-    { label: "Pending Grades", value: String(stats.pendingGrades), icon: ClipboardList, gradient: "from-amber-500 to-orange-500" },
+    { label: "My Courses", value: String(stats.courses), icon: BookOpen, color: "bg-primary/10 text-primary" },
+    { label: "Total Students", value: String(stats.students), icon: Users, color: "bg-success/10 text-success" },
+    { label: "Today's Classes", value: String(todaySchedule.length), icon: CalendarDays, color: "bg-accent/10 text-accent" },
+    { label: "Pending Grades", value: String(stats.pendingGrades), icon: ClipboardList, color: "bg-warning/10 text-warning" },
   ];
 
   const quickActions = [
@@ -103,23 +93,22 @@ export function FacultyDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-display">
           Welcome, {profile?.full_name || "Faculty"} 👋
         </h1>
-        <p className="text-muted-foreground mt-1">Your teaching overview for {DAYS[new Date().getDay()]}</p>
+        <p className="text-muted-foreground mt-1 text-sm">Your teaching overview for {DAYS[new Date().getDay()]}</p>
       </div>
 
-      {/* Stat Cards */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger-fade">
         {statCards.map((stat) => (
           <div key={stat.label} className="stat-card">
             <div className="relative z-10 flex items-center justify-between">
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                <p className="text-3xl font-bold tracking-tight">{stat.value}</p>
+              <div className="space-y-1.5">
+                <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                <p className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">{stat.value}</p>
               </div>
-              <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
-                <stat.icon className="h-6 w-6 text-white" />
+              <div className={`h-11 w-11 rounded-xl ${stat.color} flex items-center justify-center`}>
+                <stat.icon className="h-5 w-5" />
               </div>
             </div>
           </div>
@@ -127,34 +116,33 @@ export function FacultyDashboard() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        {/* Today's Schedule */}
-        <Card>
+        <Card className="border-border/50 shadow-card">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-lg">Today's Schedule</CardTitle>
+                <CardTitle className="text-lg font-display">Today's Schedule</CardTitle>
                 <CardDescription>{todaySchedule.length} class{todaySchedule.length !== 1 ? "es" : ""} today</CardDescription>
               </div>
-              <button onClick={() => navigate("/faculty/schedule")} className="text-xs text-primary font-medium flex items-center gap-1 hover:underline">
+              <button onClick={() => navigate("/faculty/schedule")} className="text-xs text-primary font-semibold flex items-center gap-1 hover:underline">
                 Full Schedule <ArrowUpRight className="h-3 w-3" />
               </button>
             </div>
           </CardHeader>
           <CardContent>
             {todaySchedule.length === 0 ? (
-              <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
-                <CalendarDays className="h-5 w-5 mr-2 opacity-50" />
+              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground text-sm">
+                <CalendarDays className="h-10 w-10 opacity-20 mb-3" />
                 No classes scheduled for today
               </div>
             ) : (
               <div className="space-y-2">
                 {todaySchedule.map((s: any) => (
-                  <div key={s.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                  <div key={s.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/40 border border-border/30">
                     <div>
-                      <p className="text-sm font-medium">{s.courseCode} — {s.courseTitle}</p>
+                      <p className="text-sm font-semibold">{s.courseCode} — {s.courseTitle}</p>
                       <p className="text-xs text-muted-foreground">{s.room || "Room TBD"}</p>
                     </div>
-                    <Badge variant="outline">{s.start_time?.slice(0, 5)} – {s.end_time?.slice(0, 5)}</Badge>
+                    <Badge variant="outline" className="rounded-lg text-xs">{s.start_time?.slice(0, 5)} – {s.end_time?.slice(0, 5)}</Badge>
                   </div>
                 ))}
               </div>
@@ -162,32 +150,27 @@ export function FacultyDashboard() {
           </CardContent>
         </Card>
 
-        {/* Pending Tasks */}
-        <Card>
+        <Card className="border-border/50 shadow-card">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Pending Tasks</CardTitle>
+            <CardTitle className="text-lg font-display">Pending Tasks</CardTitle>
             <CardDescription>Items requiring your attention</CardDescription>
           </CardHeader>
           <CardContent>
             {pendingTasks.length === 0 ? (
-              <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
-                <ClipboardList className="h-5 w-5 mr-2 opacity-50" />
+              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground text-sm">
+                <ClipboardList className="h-10 w-10 opacity-20 mb-3" />
                 No pending tasks — great job!
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {pendingTasks.map((task) => (
-                  <button
-                    key={task.path}
-                    onClick={() => navigate(task.path)}
-                    className="flex items-center gap-3 p-3 rounded-xl text-left w-full hover:bg-accent/50 transition-all duration-200 group"
-                  >
-                    <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <button key={task.path} onClick={() => navigate(task.path)} className="action-card w-full">
+                    <div className="h-9 w-9 rounded-xl bg-primary/8 flex items-center justify-center shrink-0">
                       <task.icon className={`h-4 w-4 ${task.color}`} />
                     </div>
-                    <span className="text-sm font-medium text-foreground flex-1">{task.label}</span>
-                    <Badge variant="secondary">{task.count}</Badge>
-                    <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-sm font-semibold text-foreground flex-1 text-left">{task.label}</span>
+                    <Badge variant="secondary" className="rounded-lg">{task.count}</Badge>
+                    <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                 ))}
               </div>
@@ -196,24 +179,19 @@ export function FacultyDashboard() {
         </Card>
       </div>
 
-      {/* Quick Actions Grid */}
-      <Card>
+      <Card className="border-border/50 shadow-card">
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Quick Actions</CardTitle>
+          <CardTitle className="text-lg font-display">Quick Actions</CardTitle>
           <CardDescription>Navigate to common tasks</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {quickActions.map((action) => (
-              <button
-                key={action.path}
-                onClick={() => navigate(action.path)}
-                className="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-accent/50 transition-all duration-200 group text-center"
-              >
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <button key={action.path} onClick={() => navigate(action.path)} className="quick-tile">
+                <div className="tile-icon bg-primary/8">
                   <action.icon className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-xs font-medium text-foreground">{action.label}</span>
+                <span className="text-[11px] font-medium text-foreground/80">{action.label}</span>
               </button>
             ))}
           </div>

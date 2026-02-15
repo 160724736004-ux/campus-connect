@@ -50,35 +50,35 @@ export function AdminDashboard() {
   }, []);
 
   const cards = [
-    { label: "Total Students", value: String(stats.students), icon: Users, gradient: "from-blue-500 to-blue-600", bg: "bg-blue-50", text: "text-blue-700" },
-    { label: "Faculty Members", value: String(stats.faculty), icon: GraduationCap, gradient: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50", text: "text-emerald-700" },
-    { label: "Active Courses", value: String(stats.courses), icon: BookOpen, gradient: "from-violet-500 to-violet-600", bg: "bg-violet-50", text: "text-violet-700" },
-    { label: "Revenue", value: `$${stats.revenue.toLocaleString()}`, icon: DollarSign, gradient: "from-amber-500 to-orange-500", bg: "bg-amber-50", text: "text-amber-700" },
+    { label: "Total Students", value: String(stats.students), icon: Users, color: "bg-primary/10 text-primary" },
+    { label: "Faculty Members", value: String(stats.faculty), icon: GraduationCap, color: "bg-success/10 text-success" },
+    { label: "Active Courses", value: String(stats.courses), icon: BookOpen, color: "bg-accent/10 text-accent" },
+    { label: "Revenue", value: `$${stats.revenue.toLocaleString()}`, icon: DollarSign, color: "bg-warning/10 text-warning" },
   ];
 
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Overview of university operations</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-display">Dashboard</h1>
+          <p className="text-muted-foreground mt-1 text-sm">Overview of university operations</p>
         </div>
-        <Badge variant="outline" className="gap-1.5 px-3 py-1.5">
-          <TrendingUp className="h-3.5 w-3.5" />
+        <Badge variant="outline" className="gap-1.5 px-3 py-1.5 rounded-lg bg-success/5 border-success/20 text-success text-xs font-semibold">
+          <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
           Live
         </Badge>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger-fade">
         {cards.map((stat) => (
           <div key={stat.label} className="stat-card">
             <div className="relative z-10 flex items-center justify-between">
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                <p className="text-3xl font-bold tracking-tight">{stat.value}</p>
+              <div className="space-y-1.5">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                <p className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">{stat.value}</p>
               </div>
-              <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
-                <stat.icon className="h-6 w-6 text-white" />
+              <div className={`h-12 w-12 rounded-2xl ${stat.color} flex items-center justify-center`}>
+                <stat.icon className="h-6 w-6" />
               </div>
             </div>
           </div>
@@ -86,14 +86,14 @@ export function AdminDashboard() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border-border/50 shadow-card">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="flex items-center gap-2 text-lg"><DollarSign className="h-5 w-5 text-primary" /> Fee Collection</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-lg font-display"><DollarSign className="h-5 w-5 text-primary" /> Fee Collection</CardTitle>
                 <CardDescription>Collection rates and outstanding balances</CardDescription>
               </div>
-              <Button variant="ghost" size="sm" className="text-xs gap-1" onClick={() => navigate("/finance")}>
+              <Button variant="ghost" size="sm" className="text-xs gap-1 rounded-lg" onClick={() => navigate("/finance")}>
                 View All <ArrowUpRight className="h-3 w-3" />
               </Button>
             </div>
@@ -104,7 +104,7 @@ export function AdminDashboard() {
                 <span className="text-muted-foreground">Collection Rate</span>
                 <span className="font-bold text-foreground">{financeStats.collectionRate.toFixed(1)}%</span>
               </div>
-              <Progress value={financeStats.collectionRate} className="h-3 rounded-full" />
+              <Progress value={financeStats.collectionRate} className="h-2.5 rounded-full" />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Collected: ${financeStats.totalCollected.toLocaleString()}</span>
                 <span>Billed: ${financeStats.totalBilled.toLocaleString()}</span>
@@ -120,18 +120,18 @@ export function AdminDashboard() {
               </div>
             )}
             <div className="flex gap-2">
-              <Badge variant="outline" className="bg-muted/50">{financeStats.pendingCount} pending</Badge>
-              <Badge variant="secondary">{financeStats.overdueCount} overdue</Badge>
+              <Badge variant="outline" className="bg-muted/50 rounded-lg">{financeStats.pendingCount} pending</Badge>
+              <Badge variant="secondary" className="rounded-lg">{financeStats.overdueCount} overdue</Badge>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border-border/50 shadow-card">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Quick Actions</CardTitle>
+            <CardTitle className="text-lg font-display">Quick Actions</CardTitle>
             <CardDescription>Common administrative tasks</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-3">
+          <CardContent className="grid gap-1.5">
             {[
               { label: "Manage Students", path: "/students", icon: Users, desc: "Admissions, profiles & enrollment" },
               { label: "Manage Faculty", path: "/faculty", icon: GraduationCap, desc: "Profiles, workload & duties" },
@@ -141,16 +141,16 @@ export function AdminDashboard() {
               <button
                 key={action.path}
                 onClick={() => navigate(action.path)}
-                className="flex items-center gap-4 p-3 rounded-xl text-left hover:bg-accent/50 transition-all duration-200 group"
+                className="action-card"
               >
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+                <div className="h-10 w-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors shrink-0">
                   <action.icon className="h-5 w-5 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-foreground">{action.label}</p>
                   <p className="text-xs text-muted-foreground">{action.desc}</p>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
             ))}
           </CardContent>

@@ -121,7 +121,7 @@ export default function MarksEntry() {
       studs.forEach((s: any) => {
         const enr = enrs.find((e: any) => e.student_id === s.id);
         if (!enr) return;
-        const existing = marksData.find((m: any) => m.enrollment_id === enr.id);
+        const existing = marksData.find((m: any) => m.enrollment_id === enr.id) as any;
         marksMap[enr.id] = {
           marks: existing?.marks_obtained != null ? String(existing.marks_obtained) : "",
           absent: existing?.is_absent === true,

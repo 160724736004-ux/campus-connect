@@ -221,7 +221,7 @@ export default function Grades() {
     return result;
   })();
   const [whatIfCourse, setWhatIfCourse] = useState("");
-
+  const [whatIfOverrides, setWhatIfOverrides] = useState<Record<string, string>>({});
   const whatIfEnrollment = enrollments.find((e: any) => e.id === whatIfCourse) || enrollments[0];
   const whatIfCalc = whatIfEnrollment
     ? (() => {

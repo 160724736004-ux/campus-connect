@@ -52,7 +52,7 @@ export default function ExternalMarksEntry() {
             .in("component_type_id", typeIdsList)
         : Promise.resolve({ data: [] }),
       supabase.from("sections" as any).select("*").eq("status", "active").order("name"),
-      supabase.from("exam_external_examiners" as any).select("id, name").eq("status", "confirmed").then((r) => r).catch(() => ({ data: [] })),
+      (supabase.from("exam_external_examiners" as any).select("id, name").eq("status", "confirmed") as any).then((r: any) => r).catch(() => ({ data: [] })),
     ]);
     setCourses(coursesRes.data || []);
     setComponents((compRes.data as any[]) || []);
@@ -130,7 +130,7 @@ export default function ExternalMarksEntry() {
         marksMap[enr.id] = marksMap[enr.id] || {};
         externalComponents.forEach((comp) => {
           const code = comp.assessment_component_types?.code || "semester_end";
-          const existing = (marksRes.data || []).find((m: any) => m.enrollment_id === enr.id && m.component_definition_id === comp.id);
+          const existing = (marksRes.data || []).find((m: any) => m.enrollment_id === enr.id && m.component_definition_id === comp.id) as any;
           marksMap[enr.id][comp.id] = {
             marks: existing?.marks_obtained != null ? String(existing.marks_obtained) : "",
             absent: existing?.is_absent === true,
@@ -225,7 +225,7 @@ export default function ExternalMarksEntry() {
     }
     for (const enr of enrollments) {
       for (const comp of externalComponents) {
-        const row = marks[enr.id]?.[comp.id] || {};
+        const row: any = marks[enr.id]?.[comp.id] || {};
         const marksVal = row.absent ? null : (row.marks?.trim() ? parseFloat(row.marks) : null);
         const payload = {
           marks_obtained: marksVal,

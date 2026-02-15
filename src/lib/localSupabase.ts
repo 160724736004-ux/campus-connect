@@ -206,6 +206,18 @@ export const localSupabase = {
       localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify({ session }));
       return { data: { user, session }, error: null };
     },
+    signUp: async ({ email, password, options }: { email: string; password: string; options?: { data?: { full_name?: string }; emailRedirectTo?: string } }) => {
+      const profiles = getTable("profiles");
+      if (!profiles) return { data: { user: null, session: null }, error: new Error("Offline DB not ready") };
+      const id = uuid();
+      const user = { id, email };
+      await profiles.add({ id, email, full_name: options?.data?.full_name || email, created_at: new Date().toISOString(), updated_at: new Date().toISOString() });
+      const roles = getTable("user_roles");
+      if (roles) await roles.add({ id: uuid(), user_id: id, role: "student", created_at: new Date().toISOString() });
+      const session = { user, access_token: "local", expires_at: Date.now() + 86400000 };
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify({ session }));
+      return { data: { user, session }, error: null };
+    },
     signOut: async () => {
       localStorage.removeItem(LOCAL_AUTH_KEY);
       return { error: null };
@@ -243,7 +255,7 @@ export const localSupabase = {
   },
 
   storage: {
-    from: () => ({
+    from: (_bucket?: string) => ({
       upload: async (path: string, file: File) => {
         const reader = new FileReader();
         return new Promise((resolve) => {
@@ -262,6 +274,9 @@ export const localSupabase = {
         const b64 = localStorage.getItem(key);
         const url = b64 ? "data:application/octet-stream;base64," + b64 : "";
         return { data: { publicUrl: url } };
+      },
+      remove: async (_paths: string[]) => {
+        return { data: null, error: null };
       },
     }),
   },

@@ -23,6 +23,13 @@ import {
   BarChart2,
   RefreshCw,
   Target,
+  Bell,
+  MessageSquare,
+  Star,
+  Award,
+  Download,
+  Megaphone,
+  CreditCard,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
@@ -116,15 +123,20 @@ const facultyNav = [
 const studentNav = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "My Courses", url: "/courses", icon: BookOpen },
-  { title: "Grades", url: "/grades", icon: ClipboardList },
+  { title: "Timetable", url: "/student/timetable", icon: CalendarDays },
+  { title: "Attendance", url: "/attendance", icon: ClipboardList },
+  { title: "Grades & Results", url: "/grades", icon: BarChart2 },
   { title: "Backlogs", url: "/backlogs", icon: ClipboardCheck },
-  { title: "Exam Features", url: "/exam-features", icon: RefreshCw },
-  { title: "OBE & CBCS", url: "/obe-cbcs", icon: Target },
+  { title: "Leave / Condonation", url: "/student/leave", icon: Send },
+  { title: "Hall Tickets", url: "/student/hall-tickets", icon: Download },
+  { title: "Pay Fees", url: "/finance", icon: CreditCard },
+  { title: "Certificates", url: "/student/certificates", icon: Award },
+  { title: "Notifications", url: "/student/notifications", icon: Bell },
+  { title: "Announcements", url: "/student/announcements", icon: Megaphone },
+  { title: "Message Faculty", url: "/student/messages", icon: MessageSquare },
+  { title: "Feedback", url: "/student/feedback", icon: Star },
   { title: "Question Bank", url: "/question-bank", icon: BookOpen },
-  { title: "Lesson Plan", url: "/lesson-plan", icon: FileText },
   { title: "LMS", url: "/lms", icon: BookOpen },
-  { title: "Schedule", url: "/schedule", icon: CalendarDays },
-  { title: "Finance", url: "/finance", icon: DollarSign },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

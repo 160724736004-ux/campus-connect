@@ -38,41 +38,43 @@ export function HodDashboard() {
   }, [user, profile]);
 
   const cards = [
-    { label: "Department Courses", value: String(stats.courses), icon: BookOpen, gradient: "from-blue-500 to-blue-600" },
-    { label: "Faculty Members", value: String(stats.faculty), icon: Users, gradient: "from-emerald-500 to-emerald-600" },
-    { label: "Students", value: String(stats.students), icon: Users, gradient: "from-violet-500 to-violet-600" },
-    { label: "Programs", value: String(stats.programs), icon: Building2, gradient: "from-amber-500 to-orange-500" },
+    { label: "Department Courses", value: String(stats.courses), icon: BookOpen, color: "bg-primary/10 text-primary" },
+    { label: "Faculty Members", value: String(stats.faculty), icon: Users, color: "bg-success/10 text-success" },
+    { label: "Students", value: String(stats.students), icon: Users, color: "bg-accent/10 text-accent" },
+    { label: "Programs", value: String(stats.programs), icon: Building2, color: "bg-warning/10 text-warning" },
   ];
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-display">
           Department Overview 🏛️
         </h1>
-        <p className="text-muted-foreground mt-1">Manage your department operations</p>
+        <p className="text-muted-foreground mt-1 text-sm">Manage your department operations</p>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger-fade">
         {cards.map((stat) => (
           <div key={stat.label} className="stat-card">
             <div className="relative z-10 flex items-center justify-between">
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                <p className="text-3xl font-bold tracking-tight">{stat.value}</p>
+              <div className="space-y-1.5">
+                <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                <p className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">{stat.value}</p>
               </div>
-              <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
-                <stat.icon className="h-6 w-6 text-white" />
+              <div className={`h-12 w-12 rounded-2xl ${stat.color} flex items-center justify-center`}>
+                <stat.icon className="h-6 w-6" />
               </div>
             </div>
           </div>
         ))}
       </div>
-      <Card>
+
+      <Card className="border-border/50 shadow-card">
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Department Management</CardTitle>
+          <CardTitle className="text-lg font-display">Department Management</CardTitle>
           <CardDescription>Quick access to department resources</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-2 sm:grid-cols-2">
+        <CardContent className="grid gap-1.5 sm:grid-cols-2">
           {[
             { label: "Manage Faculty", path: "/faculty", icon: Users, desc: "View and manage faculty" },
             { label: "View Students", path: "/students", icon: Users, desc: "Student directory" },
@@ -82,16 +84,16 @@ export function HodDashboard() {
             <button
               key={action.path}
               onClick={() => navigate(action.path)}
-              className="flex items-center gap-3 p-3 rounded-xl text-left hover:bg-accent/50 transition-all duration-200 group"
+              className="action-card"
             >
-              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <div className="h-10 w-10 rounded-xl bg-primary/8 flex items-center justify-center shrink-0">
                 <action.icon className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground">{action.label}</p>
                 <p className="text-xs text-muted-foreground">{action.desc}</p>
               </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           ))}
         </CardContent>

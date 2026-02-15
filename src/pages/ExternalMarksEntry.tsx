@@ -426,10 +426,10 @@ export default function ExternalMarksEntry() {
               </div>
               <div className="w-40">
                 <label className="text-sm font-medium mb-2 block">Section</label>
-                <Select value={selectedSection} onValueChange={setSelectedSection}>
+                <Select value={selectedSection || "__all__"} onValueChange={(v) => setSelectedSection(v === "__all__" ? "" : v)}>
                   <SelectTrigger><SelectValue placeholder="All" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All</SelectItem>
+                    <SelectItem value="__all__">All</SelectItem>
                     {sections.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
                   </SelectContent>
                 </Select>

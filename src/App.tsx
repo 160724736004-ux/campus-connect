@@ -46,6 +46,12 @@ import StudentCertificates from "./pages/StudentCertificates";
 import StudentAnnouncements from "./pages/StudentAnnouncements";
 import StudentMessages from "./pages/StudentMessages";
 import StudentFeedback from "./pages/StudentFeedback";
+import FacultySchedule from "./pages/FacultySchedule";
+import FacultyStudentDetails from "./pages/FacultyStudentDetails";
+import FacultyMessages from "./pages/FacultyMessages";
+import FacultyNotifications from "./pages/FacultyNotifications";
+import FacultyLeave from "./pages/FacultyLeave";
+import FacultyAttendanceReports from "./pages/FacultyAttendanceReports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -99,6 +105,12 @@ const App = () => (
             <Route path="/student/announcements" element={<ProtectedRoute allowedRoles={["student"]}><StudentAnnouncements /></ProtectedRoute>} />
             <Route path="/student/messages" element={<ProtectedRoute allowedRoles={["student"]}><StudentMessages /></ProtectedRoute>} />
             <Route path="/student/feedback" element={<ProtectedRoute allowedRoles={["student"]}><StudentFeedback /></ProtectedRoute>} />
+            <Route path="/faculty/schedule" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultySchedule /></ProtectedRoute>} />
+            <Route path="/faculty/students" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyStudentDetails /></ProtectedRoute>} />
+            <Route path="/faculty/messages" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyMessages /></ProtectedRoute>} />
+            <Route path="/faculty/notifications" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyNotifications /></ProtectedRoute>} />
+            <Route path="/faculty/leave" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyLeave /></ProtectedRoute>} />
+            <Route path="/faculty/reports" element={<ProtectedRoute allowedRoles={["faculty"]}><FacultyAttendanceReports /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
